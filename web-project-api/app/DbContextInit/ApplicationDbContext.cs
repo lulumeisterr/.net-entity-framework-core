@@ -1,11 +1,21 @@
 using Microsoft.EntityFrameworkCore;
-using web_project_api.app.Model;
+using Allocation = web_project_api.app.Model.Allocation;
+using Trade = web_project_api.app.Model.Trade;
 
 namespace web_project_api.app.DbContextInit;
 
     public class ApplicationDbContext : DbContext {
         public DbSet<Trade> Trades {get;set;}
+        public DbSet<Allocation> Allocations {get;set;}
+        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder) {
+            optionsBuilder.UseMySql(connectionString: @"Server=localhost;User=root;Password=ANSKk08aPEDbFjDO;Database=testing",
+                new MySqlServerVersion(new Version(8, 0, 27)));
+        }
 
-        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder) => 
-        optionsBuilder.UseMySQL("server=127.0.0.1;user=root;password=1234;database=trades");
+        protected override void OnModelCreating(ModelBuilder modelBuilder) {
+
+            modelBuilder.Entity<Allocation>().HasOne<Trade>(allocation => allocation.Trade)
+                                             .WithMany(trade => trade.Allocations)
+                                             .HasForeignKey(allocation => allocation.CurrentTradeId);
+        }
     }

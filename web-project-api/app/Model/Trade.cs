@@ -5,11 +5,14 @@ namespace web_project_api.app.Model
         private int _tradeId;
         private DateTime _tradingDate;
         private string? _tradeStatusCode;
+        private ICollection<Allocation> _allocations;
+
         public Trade(int tradeId, DateTime tradingDate, string tradeStatusCode) {
             this._tradeId = tradeId;
             this._tradingDate = tradingDate;
             this._tradeStatusCode = tradeStatusCode;
         }
+
 //getset
         public DateTime TradingDate { 
             get => _tradingDate; 
@@ -24,6 +27,11 @@ namespace web_project_api.app.Model
         public int TradeId { 
             get => _tradeId; 
             set => _tradeId = value; 
+        }
+
+        public ICollection<Allocation> Allocations {
+            get => _allocations; 
+            set => _allocations = value; 
         }
 
         public override string ToString()
