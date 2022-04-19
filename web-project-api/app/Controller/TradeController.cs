@@ -13,7 +13,7 @@ public class TradeController : ControllerBase
         [HttpPost("/trades")]
         public IActionResult AddTrade([FromBody] Trade trade) {
             tradeRepository.Add(trade);
-            return Created($"/trades/{trade.TradeId}",trade);
+            return Created($"/trades/{trade.tradeId}",trade);
         }
 
         [HttpPut("/trades")]

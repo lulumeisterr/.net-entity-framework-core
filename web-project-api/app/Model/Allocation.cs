@@ -1,43 +1,21 @@
+using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
+
 namespace web_project_api.app.Model
 {
+    [Table("Allocation")]
     public class Allocation
     {
-        private int _allocationId;
-        private string? _allocationName;
-        private int _unit;
-        private string? _accountNumber;
+        [Key]
+        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
+        public int allocationId { get; set; }
+        public string? allocationName { get; set; }
+        public int unit { get; set; }
+        public string? accountNumber { get; set; }
 
-        private int currentTradeId { get; set; }
-        private Trade _trade;
+        [ForeignKey("Trade")]
+        public virtual Trade trade { get; set; }
+        public int? CurrentTradeId { get; set; }
 
-        public int AllocationId {
-            get => _allocationId;
-            set => _allocationId = value;
-        }
-
-        public int CurrentTradeId {
-            get => currentTradeId;
-            set => currentTradeId = value;
-        }
-
-        public string AllocationName {
-            get => _allocationName;
-            set => _allocationName = value;
-        }
-
-        public int Unit {
-            get => _unit;
-            set => _unit = value;
-        }
-
-        public string AccountNumber {
-            get => _accountNumber;
-            set => _accountNumber = value;
-        }
-
-        public Trade Trade {
-            get => _trade;
-            set => _trade = value;
-        }
     }
 }

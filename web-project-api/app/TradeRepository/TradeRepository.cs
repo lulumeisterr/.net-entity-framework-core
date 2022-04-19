@@ -10,17 +10,17 @@ namespace web_project_api.app.Repositorys;
         }
 
         public Trade GetTradeById(int tradeId) {
-            return _trades.First(t => t.TradeId == tradeId);
+            return _trades.First(t => t.tradeId == tradeId);
         }
 
         public IEnumerable<Trade> SearchTradeByDate(DateTime dateStart, DateTime endDate) {
-            return _trades.Where(t => t.TradingDate >= dateStart && t.TradingDate <= endDate);
+            return _trades.Where(t => t.tradingDate >= dateStart && t.tradingDate <= endDate);
         }
 
         public Trade UpdateTrade(Trade trade) {
-            var tradeSaved = GetTradeById(trade.TradeId);
-            tradeSaved.TradeStatusCode = trade.TradeStatusCode;
-            tradeSaved.TradingDate = trade.TradingDate;
+            var tradeSaved = GetTradeById(trade.tradeId);
+            tradeSaved.tradeStatusCode = trade.tradeStatusCode;
+            tradeSaved.tradingDate = trade.tradingDate;
             return tradeSaved;
         }
 

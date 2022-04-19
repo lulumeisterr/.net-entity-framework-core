@@ -11,8 +11,8 @@ using web_project_api.app.DbContextInit;
 namespace web_project_api.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20220419040123_CreateTrade")]
-    partial class CreateTrade
+    [Migration("20220419222835_CreateTables")]
+    partial class CreateTables
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -23,62 +23,63 @@ namespace web_project_api.Migrations
 
             modelBuilder.Entity("web_project_api.app.Model.Allocation", b =>
                 {
-                    b.Property<int>("AllocationId")
+                    b.Property<int>("allocationId")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    b.Property<string>("AccountNumber")
-                        .IsRequired()
-                        .HasColumnType("longtext");
-
-                    b.Property<string>("AllocationName")
-                        .IsRequired()
-                        .HasColumnType("longtext");
-
-                    b.Property<int>("CurrentTradeId")
+                    b.Property<int?>("CurrentTradeId")
                         .HasColumnType("int");
 
-                    b.Property<int>("Unit")
+                    b.Property<int>("Trade")
                         .HasColumnType("int");
 
-                    b.HasKey("AllocationId");
+                    b.Property<string>("accountNumber")
+                        .HasColumnType("longtext");
 
-                    b.HasIndex("CurrentTradeId");
+                    b.Property<string>("allocationName")
+                        .HasColumnType("longtext");
 
-                    b.ToTable("Allocations");
+                    b.Property<int>("unit")
+                        .HasColumnType("int");
+
+                    b.HasKey("allocationId");
+
+                    b.HasIndex("Trade");
+
+                    b.ToTable("Allocation");
                 });
 
             modelBuilder.Entity("web_project_api.app.Model.Trade", b =>
                 {
-                    b.Property<int>("TradeId")
+                    b.Property<int>("tradeId")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    b.Property<string>("TradeStatusCode")
+                    b.Property<string>("tradeStatusCode")
                         .HasColumnType("longtext");
 
-                    b.Property<DateTime>("TradingDate")
+                    b.Property<DateTime>("tradingDate")
                         .HasColumnType("datetime(6)");
 
-                    b.HasKey("TradeId");
+                    b.HasKey("tradeId");
 
-                    b.ToTable("Trades");
+                    b.ToTable("Trade");
                 });
 
             modelBuilder.Entity("web_project_api.app.Model.Allocation", b =>
                 {
-                    b.HasOne("web_project_api.app.Model.Trade", "Trade")
-                        .WithMany("Allocations")
-                        .HasForeignKey("CurrentTradeId")
+                    b.HasOne("web_project_api.app.Model.Trade", "trade")
+                        .WithMany("_allocations")
+                        .HasForeignKey("Trade")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.Navigation("Trade");
+                    b.Navigation("trade");
                 });
 
             modelBuilder.Entity("web_project_api.app.Model.Trade", b =>
                 {
-                    b.Navigation("Allocations");
+                    b.Navigation("_allocations");
                 });
 #pragma warning restore 612, 618
         }

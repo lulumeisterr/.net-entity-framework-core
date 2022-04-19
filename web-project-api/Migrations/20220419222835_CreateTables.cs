@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace web_project_api.Migrations
 {
-    public partial class CreateTrade : Migration
+    public partial class CreateTables : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -14,59 +14,60 @@ namespace web_project_api.Migrations
                 .Annotation("MySql:CharSet", "utf8mb4");
 
             migrationBuilder.CreateTable(
-                name: "Trades",
+                name: "Trade",
                 columns: table => new
                 {
-                    TradeId = table.Column<int>(type: "int", nullable: false)
+                    tradeId = table.Column<int>(type: "int", nullable: false)
                         .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
-                    TradingDate = table.Column<DateTime>(type: "datetime(6)", nullable: false),
-                    TradeStatusCode = table.Column<string>(type: "longtext", nullable: true)
+                    tradingDate = table.Column<DateTime>(type: "datetime(6)", nullable: false),
+                    tradeStatusCode = table.Column<string>(type: "longtext", nullable: true)
                         .Annotation("MySql:CharSet", "utf8mb4")
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Trades", x => x.TradeId);
+                    table.PrimaryKey("PK_Trade", x => x.tradeId);
                 })
                 .Annotation("MySql:CharSet", "utf8mb4");
 
             migrationBuilder.CreateTable(
-                name: "Allocations",
+                name: "Allocation",
                 columns: table => new
                 {
-                    AllocationId = table.Column<int>(type: "int", nullable: false)
+                    allocationId = table.Column<int>(type: "int", nullable: false)
                         .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
-                    CurrentTradeId = table.Column<int>(type: "int", nullable: false),
-                    AllocationName = table.Column<string>(type: "longtext", nullable: false)
+                    allocationName = table.Column<string>(type: "longtext", nullable: true)
                         .Annotation("MySql:CharSet", "utf8mb4"),
-                    Unit = table.Column<int>(type: "int", nullable: false),
-                    AccountNumber = table.Column<string>(type: "longtext", nullable: false)
-                        .Annotation("MySql:CharSet", "utf8mb4")
+                    unit = table.Column<int>(type: "int", nullable: false),
+                    accountNumber = table.Column<string>(type: "longtext", nullable: true)
+                        .Annotation("MySql:CharSet", "utf8mb4"),
+                    Trade = table.Column<int>(type: "int", nullable: false),
+                    CurrentTradeId = table.Column<int>(type: "int", nullable: true)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Allocations", x => x.AllocationId);
+                    table.PrimaryKey("PK_Allocation", x => x.allocationId);
                     table.ForeignKey(
-                        name: "FK_Allocations_Trades_CurrentTradeId",
-                        column: x => x.CurrentTradeId,
-                        principalTable: "Trades",
-                        principalColumn: "TradeId",
+                        name: "FK_Allocation_Trade_Trade",
+                        column: x => x.Trade,
+                        principalTable: "Trade",
+                        principalColumn: "tradeId",
                         onDelete: ReferentialAction.Cascade);
                 })
                 .Annotation("MySql:CharSet", "utf8mb4");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Allocations_CurrentTradeId",
-                table: "Allocations",
-                column: "CurrentTradeId");
+                name: "IX_Allocation_Trade",
+                table: "Allocation",
+                column: "Trade");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
-                name: "Allocations");
+                name: "Allocation");
 
             migrationBuilder.DropTable(
-                name: "Trades");
+                name: "Trade");
         }
     }
 }

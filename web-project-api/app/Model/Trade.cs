@@ -1,42 +1,26 @@
+using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 namespace web_project_api.app.Model
 {
+    [Table("Trade")]
     public class Trade
     {
-        private int _tradeId;
-        private DateTime _tradingDate;
-        private string? _tradeStatusCode;
-        private ICollection<Allocation> _allocations;
+        [Key]
+        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
+        public int tradeId { get; set; }
+        public DateTime tradingDate { get; set; }
+        public string? tradeStatusCode { get; set; }
+        public virtual ICollection<Allocation> _allocations { get; set; }
 
         public Trade(int tradeId, DateTime tradingDate, string tradeStatusCode) {
-            this._tradeId = tradeId;
-            this._tradingDate = tradingDate;
-            this._tradeStatusCode = tradeStatusCode;
-        }
-
-//getset
-        public DateTime TradingDate { 
-            get => _tradingDate; 
-            set => _tradingDate = value; 
-        }
-
-        public string? TradeStatusCode { 
-            get => _tradeStatusCode; 
-            set => _tradeStatusCode = value; 
-        }
-
-        public int TradeId { 
-            get => _tradeId; 
-            set => _tradeId = value; 
-        }
-
-        public ICollection<Allocation> Allocations {
-            get => _allocations; 
-            set => _allocations = value; 
+            this.tradeId = tradeId;
+            this.tradingDate = tradingDate;
+            this.tradeStatusCode = tradeStatusCode;
         }
 
         public override string ToString()
         {
-            return _tradeId + _tradeStatusCode + _tradingDate;
+            return tradeId + tradeStatusCode + tradingDate;
         }
 
     }

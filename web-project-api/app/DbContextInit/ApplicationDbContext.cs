@@ -14,8 +14,10 @@ namespace web_project_api.app.DbContextInit;
 
         protected override void OnModelCreating(ModelBuilder modelBuilder) {
 
-            modelBuilder.Entity<Allocation>().HasOne<Trade>(allocation => allocation.Trade)
+            /** Relacionamento 1..*
+               modelBuilder.Entity<Allocation>().HasOne<Trade>(allocation => allocation.Trade)
                                              .WithMany(trade => trade.Allocations)
                                              .HasForeignKey(allocation => allocation.CurrentTradeId);
+            **/
         }
     }
