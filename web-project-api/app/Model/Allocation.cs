@@ -13,9 +13,8 @@ namespace web_project_api.app.Model
         public int unit { get; set; }
         public string? accountNumber { get; set; }
 
-        [ForeignKey("Trade")]
+        [ForeignKey("tradeId")]
         public virtual Trade trade { get; set; }
-        public int? CurrentTradeId { get; set; }
 
     }
 }

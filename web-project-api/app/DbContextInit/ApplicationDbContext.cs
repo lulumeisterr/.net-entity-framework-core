@@ -7,10 +7,18 @@ namespace web_project_api.app.DbContextInit;
     public class ApplicationDbContext : DbContext {
         public DbSet<Trade> Trades {get;set;}
         public DbSet<Allocation> Allocations {get;set;}
+        
+        public string connectingString { get; set; }
+
+        public ApplicationDbContext(IConfiguration configuration) {
+            this.connectingString = configuration["Database:sqlConnection"];
+        }
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder) {
-            optionsBuilder.UseMySql(connectionString: @"Server=localhost;User=root;Password=ANSKk08aPEDbFjDO;Database=testing",
+            optionsBuilder.UseMySql(connectionString: $@"{this.connectingString}",
                 new MySqlServerVersion(new Version(8, 0, 27)));
         }
+
+
 
         protected override void OnModelCreating(ModelBuilder modelBuilder) {
 
