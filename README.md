@@ -1,3 +1,7 @@
+# DB
+  - docker run --name basic-mysql --rm -v /tmp/mysql-data:/var/lib/mysql -e MYSQL_ROOT_PASSWORD=12345 -e MYSQL_DATABASE=db -p 3306:3306 -it mysql:8.0
+
+
 # .net-entity-framework-core
  - Adicionando o Entity Framework via Nuget
    - dotnet add package EntityFramework --version 6.4.4
