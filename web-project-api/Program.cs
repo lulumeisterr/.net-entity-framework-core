@@ -11,7 +11,7 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddControllers();
 
 //Configuração de injeção de dependencias.
-builder.Services.AddTransient<ITradeRepository,TradeRepository>();
+builder.Services.AddScoped<ITradeRepository,TradeRepository>();
 builder.Services.AddDbContext<ApplicationDbContext>();
 
 builder.Services.AddEndpointsApiExplorer();

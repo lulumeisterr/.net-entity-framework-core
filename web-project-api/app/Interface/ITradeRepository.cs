@@ -1,13 +1,13 @@
-using web_project_api.app.Model;
+using web_project_api.app.DTO;
 namespace web_project_api.app.Repositorys
 {
     public interface ITradeRepository
     {
-         void Add (Trade trade);
-         Trade UpdateTrade(Trade trade);
+         TradeDTO Add (TradeDTO trade);
+         TradeDTO UpdateTrade(TradeDTO trade);
          void DeleteTradeById (int tradeId);
-         Trade GetTradeById(int tradeId);
-         IEnumerable<Trade> SearchTradeByDate(DateTime dateStart, DateTime endDate);
-         IEnumerable<Trade> GetAllTrades();
+         TradeDTO GetTradeById(int tradeId);
+         IEnumerable<TradeDTO> SearchTradeByDate(DateTime dateStart, DateTime endDate);
+         IEnumerable<TradeDTO> GetAllTrades();
     }
 }

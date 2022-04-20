@@ -10,8 +10,9 @@ namespace web_project_api.app.Model
         public int tradeId { get; set; }
         public DateTime tradingDate { get; set; }
         public string? tradeStatusCode { get; set; }
-        public virtual ICollection<Allocation> _allocations { get; set; }
+        public virtual ICollection<Allocation> allocations { get; set; }
 
+        public Trade() {}
         public Trade(int tradeId, DateTime tradingDate, string tradeStatusCode) {
             this.tradeId = tradeId;
             this.tradingDate = tradingDate;

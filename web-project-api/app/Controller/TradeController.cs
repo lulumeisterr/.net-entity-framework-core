@@ -1,6 +1,7 @@
 using Microsoft.AspNetCore.Mvc;
-using web_project_api.app.Model;
+using web_project_api.app.DTO;
 using web_project_api.app.Repositorys;
+using web_project_api.app.DbContextInit;
 namespace web_project_api.app.Controller;
 
 public class TradeController : ControllerBase
@@ -11,13 +12,13 @@ public class TradeController : ControllerBase
         }
 
         [HttpPost("/trades")]
-        public IActionResult AddTrade([FromBody] Trade trade) {
-            tradeRepository.Add(trade);
-            return Created($"/trades/{trade.tradeId}",trade);
+        public IActionResult AddTrade([FromBody] TradeDTO trade) {
+            TradeDTO newTrade = tradeRepository.Add(trade);
+            return Created($"/trades/{newTrade.TradeId}",newTrade);
         }
 
         [HttpPut("/trades")]
-        public IActionResult UpdateTradeById([FromBody] Trade trade) {
+        public IActionResult UpdateTradeById([FromBody] TradeDTO trade) {
             return tradeRepository.UpdateTrade(trade) != null ? Ok(tradeRepository.UpdateTrade(trade)) : NoContent();
         }
         
