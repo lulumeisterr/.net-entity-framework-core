@@ -1,4 +1,13 @@
+using web_project_api.app.Model;
+
 namespace web_project_api.app.DTO
 {
-    public record TradeDTO(int TradeId, DateTime TradingDate, string TradeStatusCode, ICollection<String> allocations);
+    public class TradeDTO {
+
+        public int tradeId { get; set; }
+        public DateTime tradingDate { get; set; }
+        public string? tradeStatusCode { get; set; }
+        public virtual ICollection<Allocation> allocations { get; set; }
+
+    }
 }

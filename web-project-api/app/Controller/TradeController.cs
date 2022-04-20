@@ -14,7 +14,7 @@ public class TradeController : ControllerBase
         [HttpPost("/trades")]
         public IActionResult AddTrade([FromBody] TradeDTO trade) {
             TradeDTO newTrade = tradeRepository.Add(trade);
-            return Created($"/trades/{newTrade.TradeId}",newTrade);
+            return Created($"/trades/{newTrade.tradeId}",newTrade);
         }
 
         [HttpPut("/trades")]

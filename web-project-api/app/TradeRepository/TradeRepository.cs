@@ -16,25 +16,26 @@ namespace web_project_api.app.Repositorys;
         public TradeDTO Add (TradeDTO tradeRequest) {
 
             var newTrade = new Trade {
-                tradeStatusCode = tradeRequest.TradeStatusCode,
-                tradingDate = tradeRequest.TradingDate,
+                tradeStatusCode = tradeRequest.tradeStatusCode,
+                tradingDate = tradeRequest.tradingDate,
             };
             _context.Trades.Add(newTrade);
             _context.SaveChanges();
 
+            tradeRequest.tradeId = _context.Trades.First().tradeId;
             return tradeRequest;
         }
 
         public TradeDTO GetTradeById(int tradeId) {
-            return _trades.First(t => t.TradeId == tradeId);
+            return _trades.First(t => t.tradeId == tradeId);
         }
 
         public IEnumerable<TradeDTO> SearchTradeByDate(DateTime dateStart, DateTime endDate) {
-            return _trades.Where(t => t.TradingDate >= dateStart && t.TradingDate <= endDate);
+            return _trades.Where(t => t.tradingDate >= dateStart && t.tradingDate <= endDate);
         }
 
         public TradeDTO UpdateTrade(TradeDTO tradeRequest) {
-            var tradeSaved = GetTradeById(tradeRequest.TradeId);
+            var tradeSaved = GetTradeById(tradeRequest.tradeId);
             //tradeSaved.TradeStatusCode = tradeRequest.TradeStatusCode;
             //tradeSaved.TradingDate = tradeRequest.TradingDate;
             return tradeSaved;
