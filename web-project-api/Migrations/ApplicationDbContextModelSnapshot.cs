@@ -21,8 +21,11 @@ namespace web_project_api.Migrations
 
             modelBuilder.Entity("web_project_api.app.Model.Allocation", b =>
                 {
-                    b.Property<int>("allocationId")
+                    b.Property<int>("IdAccount")
                         .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    b.Property<int>("Trade")
                         .HasColumnType("int");
 
                     b.Property<string>("accountNumber")
@@ -31,23 +34,27 @@ namespace web_project_api.Migrations
                     b.Property<string>("allocationName")
                         .HasColumnType("longtext");
 
-                    b.Property<int>("tradeId")
-                        .HasColumnType("int");
-
                     b.Property<int>("unit")
                         .HasColumnType("int");
 
-                    b.HasKey("allocationId");
+                    b.HasKey("IdAccount");
 
-                    b.HasIndex("tradeId");
+                    b.HasIndex("Trade");
 
                     b.ToTable("Allocation");
                 });
 
             modelBuilder.Entity("web_project_api.app.Model.Trade", b =>
                 {
-                    b.Property<int>("tradeId")
+                    b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    b.Property<string>("buyiOrSell")
+                        .IsRequired()
+                        .HasColumnType("longtext");
+
+                    b.Property<int>("tradeId")
                         .HasColumnType("int");
 
                     b.Property<string>("tradeStatusCode")
@@ -56,7 +63,7 @@ namespace web_project_api.Migrations
                     b.Property<DateTime>("tradingDate")
                         .HasColumnType("datetime(6)");
 
-                    b.HasKey("tradeId");
+                    b.HasKey("Id");
 
                     b.ToTable("Trade");
                 });
@@ -64,8 +71,8 @@ namespace web_project_api.Migrations
             modelBuilder.Entity("web_project_api.app.Model.Allocation", b =>
                 {
                     b.HasOne("web_project_api.app.Model.Trade", "trade")
-                        .WithMany("_allocations")
-                        .HasForeignKey("tradeId")
+                        .WithMany("allocations")
+                        .HasForeignKey("Trade")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
@@ -74,7 +81,7 @@ namespace web_project_api.Migrations
 
             modelBuilder.Entity("web_project_api.app.Model.Trade", b =>
                 {
-                    b.Navigation("_allocations");
+                    b.Navigation("allocations");
                 });
 #pragma warning restore 612, 618
         }

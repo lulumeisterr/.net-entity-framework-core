@@ -1,6 +1,9 @@
-# DB
-  - docker run --name basic-mysql --rm -v /tmp/mysql-data:/var/lib/mysql -e MYSQL_ROOT_PASSWORD=12345 -e MYSQL_DATABASE=db -p 3306:3306 -it mysql:8.0
-
+# DB Docker
+   - docker pull mysql 
+   - docker run -e MYSQL_ROOT_PASSWORD=root  -e MYSQL_DATABASE=db -p 3306:3306  --name mysql -d mysql
+   - CREATE USER 'lucas'@'%' IDENTIFIED WITH mysql_native_password BY 'root';
+   - GRANT ALL PRIVILEGES ON *.* TO 'lucas'@'%';
+   - FLUSH PRIVILEGES;
 
 # .net-entity-framework-core
  - Adicionando o Entity Framework via Nuget

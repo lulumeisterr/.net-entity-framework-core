@@ -7,17 +7,13 @@ namespace web_project_api.app.Model
     {
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
+        public int Id { get; set; }
         public int tradeId { get; set; }
         public DateTime tradingDate { get; set; }
         public string? tradeStatusCode { get; set; }
+        public string? buyiOrSell { get; set; }
         public virtual ICollection<Allocation> allocations { get; set; }
 
-        public Trade() {}
-        public Trade(int tradeId, DateTime tradingDate, string tradeStatusCode) {
-            this.tradeId = tradeId;
-            this.tradingDate = tradingDate;
-            this.tradeStatusCode = tradeStatusCode;
-        }
 
         public override string ToString()
         {

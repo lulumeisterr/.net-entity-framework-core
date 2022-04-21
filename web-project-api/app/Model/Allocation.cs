@@ -7,13 +7,11 @@ namespace web_project_api.app.Model
     public class Allocation
     {
         [Key]
-        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-        public int allocationId { get; set; }
+        public string? accountNumber { get; set; }
         public string? allocationName { get; set; }
         public int unit { get; set; }
-        public string? accountNumber { get; set; }
 
-        [ForeignKey("tradeId")]
+        [ForeignKey("Trade")]
         public virtual Trade trade { get; set; }
 
     }

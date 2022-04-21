@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace web_project_api.Migrations
 {
-    public partial class CreateTables : Migration
+    public partial class table : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -17,15 +17,18 @@ namespace web_project_api.Migrations
                 name: "Trade",
                 columns: table => new
                 {
-                    tradeId = table.Column<int>(type: "int", nullable: false)
+                    Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
+                    tradeId = table.Column<int>(type: "int", nullable: false),
                     tradingDate = table.Column<DateTime>(type: "datetime(6)", nullable: false),
                     tradeStatusCode = table.Column<string>(type: "longtext", nullable: true)
+                        .Annotation("MySql:CharSet", "utf8mb4"),
+                    buyiOrSell = table.Column<string>(type: "longtext", nullable: false)
                         .Annotation("MySql:CharSet", "utf8mb4")
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Trade", x => x.tradeId);
+                    table.PrimaryKey("PK_Trade", x => x.Id);
                 })
                 .Annotation("MySql:CharSet", "utf8mb4");
 
@@ -33,32 +36,31 @@ namespace web_project_api.Migrations
                 name: "Allocation",
                 columns: table => new
                 {
-                    allocationId = table.Column<int>(type: "int", nullable: false)
+                    IdAccount = table.Column<int>(type: "int", nullable: false)
                         .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
                     allocationName = table.Column<string>(type: "longtext", nullable: true)
                         .Annotation("MySql:CharSet", "utf8mb4"),
                     unit = table.Column<int>(type: "int", nullable: false),
                     accountNumber = table.Column<string>(type: "longtext", nullable: true)
                         .Annotation("MySql:CharSet", "utf8mb4"),
-                    Trade = table.Column<int>(type: "int", nullable: false),
-                    CurrentTradeId = table.Column<int>(type: "int", nullable: true)
+                    Id = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Allocation", x => x.allocationId);
+                    table.PrimaryKey("PK_Allocation", x => x.IdAccount);
                     table.ForeignKey(
-                        name: "FK_Allocation_Trade_Trade",
-                        column: x => x.Trade,
+                        name: "FK_Allocation_Trade_Id",
+                        column: x => x.Id,
                         principalTable: "Trade",
-                        principalColumn: "tradeId",
+                        principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 })
                 .Annotation("MySql:CharSet", "utf8mb4");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Allocation_Trade",
+                name: "IX_Allocation_Id",
                 table: "Allocation",
-                column: "Trade");
+                column: "Id");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)

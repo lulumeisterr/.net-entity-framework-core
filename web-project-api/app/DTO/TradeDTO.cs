@@ -7,7 +7,8 @@ namespace web_project_api.app.DTO
         public int tradeId { get; set; }
         public DateTime tradingDate { get; set; }
         public string? tradeStatusCode { get; set; }
-        public virtual ICollection<Allocation> allocations { get; set; }
+        public string buyiOrSell { get; set; }
+        public ICollection<Allocation> allocations { get; set; }
 
     }
 }

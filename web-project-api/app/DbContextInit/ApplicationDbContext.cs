@@ -17,9 +17,7 @@ namespace web_project_api.app.DbContextInit;
             optionsBuilder.UseMySql(connectionString: $@"{this.connectingString}",
                 new MySqlServerVersion(new Version(8, 0, 27)));
         }
-
-
-
+        
         protected override void OnModelCreating(ModelBuilder modelBuilder) {
 
             /** Relacionamento 1..*

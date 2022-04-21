@@ -8,10 +8,11 @@
             "server": "localhost",
             "port": 3306,
             "driver": "MySQL",
-            "name": "DB_TESTE",
-            "database": "testing",
+            "name": "DB_LOCAL_MYSQL",
+            "group": "mysql",
+            "database": "db",
             "username": "lucas",
-            "password": "pw123"
+            "password": "root"
         }
     ]
 }
