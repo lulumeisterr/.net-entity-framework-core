@@ -2,7 +2,6 @@ using web_project_api.app.DTO;
 using web_project_api.app.Model;
 using web_project_api.app.DbContextInit;
 using Microsoft.EntityFrameworkCore;
-using System.Linq;
 
 namespace web_project_api.app.Repositorys;
 
@@ -26,7 +25,12 @@ namespace web_project_api.app.Repositorys;
             if ( tradeRequest.allocations != null) {
                 newTrade.allocations = new List<Allocation>();
                 foreach ( var itemAllocation in tradeRequest.allocations) {
-                    newTrade.allocations.Add(itemAllocation);
+                    var newAllocation = new Allocation {
+                        accountNumber = itemAllocation.accountNumber,
+                        unit = itemAllocation.unit,
+                        allocationName = itemAllocation.allocationName
+                    };
+                    newTrade.allocations.Add(newAllocation);
                 }
             }
             _context.Trades.Add(newTrade);
@@ -34,57 +38,96 @@ namespace web_project_api.app.Repositorys;
             return tradeRequest;
         }
 
-        public TradeDTO? GetTradeById(int tradeId) {
+        public TradeDTO? GetTradeById(int tradeIdRequest) {
             return _context.Trades
                 .Include(t => t.allocations)
-                .Where(t => t.tradeId == tradeId)
+                .Where(t => t.tradeId == tradeIdRequest)
                 .Select(t => new TradeDTO {
+                    Id = t.Id,
                     tradeId = t.tradeId,
                     tradeStatusCode = t.tradeStatusCode,
                     buyiOrSell = t.buyiOrSell,
-                    allocations = t.allocations
+                    allocations = t.allocations.Select(a => new AllocationDTO {
+                        accountNumber = a.accountNumber,
+                        allocationName = a.allocationName,
+                        unit = a.unit,
+                    }).ToList()
                 }).FirstOrDefault();
         }
 
         public IEnumerable<TradeDTO> SearchTradeByDate(DateTime dateStart, DateTime endDate) {
             return _context.Trades
-            .Include(t => t.allocations) 
+             .Include(t => t.allocations) 
              .Where(t => t.tradingDate >= dateStart && t.tradingDate <= endDate)
              .Select(t => new TradeDTO {
                 tradeId = t.tradeId,
                 tradeStatusCode = t.tradeStatusCode,
                 buyiOrSell = t.buyiOrSell,
-                allocations = t.allocations
+                allocations = t.allocations.Select(a => new AllocationDTO {
+                        accountNumber = a.accountNumber,
+                        allocationName = a.allocationName,
+                        unit = a.unit,
+                    }).ToList()
              }).AsEnumerable<TradeDTO>();
         }
 
-        public TradeDTO UpdateTrade(TradeDTO tradeRequest) {
+        public void UpdateTrade(TradeDTO tradeRequest) {
+            
             var tradeSaved = GetTradeById(tradeRequest.tradeId);
-            //tradeSaved.TradeStatusCode = tradeRequest.TradeStatusCode;
-            //tradeSaved.TradingDate = tradeRequest.TradingDate;
-            return tradeSaved;
+
+            try {
+                Console.WriteLine($"TRADE :  {tradeSaved.tradeId}");
+
+                if (tradeSaved != null) {
+
+                    var tradeEntity = new Trade {
+                        Id = tradeSaved.Id,
+                        tradeId = tradeRequest.tradeId,
+                        tradeStatusCode = tradeRequest.tradeStatusCode,
+                        buyiOrSell = tradeRequest.buyiOrSell,
+                        allocations = new List<Allocation>()
+                    };
+
+                    if (tradeRequest.allocations != null) {
+                        foreach(var item in tradeRequest.allocations) {
+                            var allocations = new Allocation {
+                                IdAccount = item.IdAccount,
+                                accountNumber = item.accountNumber,
+                                unit = item.unit,
+                                allocationName = item.allocationName
+                            };
+                            tradeEntity.allocations.Add(allocations);
+                            _context.Update(allocations); 
+                        }
+                    }
+                    _context.Entry(tradeEntity).State = EntityState.Modified;
+                    _context.SaveChanges();
+                }
+
+            }catch (DbUpdateException){
+                throw;
+            }
         }
 
         public void DeleteTradeById (int tradeId) {
-             var tradeSaved = GetTradeById(tradeId);
-            
-            //Aprender a utilização do automapper
-             var newTrade = new Trade {
-                  tradeId = tradeSaved.tradeId,
-                  tradeStatusCode = tradeSaved.tradeStatusCode,
-                  buyiOrSell = tradeSaved.buyiOrSell,
-                  allocations = tradeSaved.allocations
-             };
-             _context.Trades.Remove(newTrade);
+             var tradeSaved = _context.Trades.Where(t => t.Id == GetTradeById(tradeId).Id).FirstOrDefault();
+            _context.Trades.Remove(tradeSaved);  
+            _context.SaveChanges();
         }
 
         public IEnumerable<TradeDTO> GetAllTrades() {
             return _context.Trades.Include(t => t.allocations)
                 .Select(t => new TradeDTO {
+                Id = t.Id,
                 tradeId = t.tradeId,
                 tradeStatusCode = t.tradeStatusCode,
                 buyiOrSell = t.buyiOrSell,
-                allocations = t.allocations
+                allocations = t.allocations.Select(a => new AllocationDTO {
+                        IdAccount = a.IdAccount,
+                        accountNumber = a.accountNumber,
+                        allocationName = a.allocationName,
+                        unit = a.unit,
+                    }).ToList()
              }).AsEnumerable<TradeDTO>();
         }
     }

@@ -1,7 +1,6 @@
 using Microsoft.AspNetCore.Mvc;
 using web_project_api.app.DTO;
 using web_project_api.app.Repositorys;
-using web_project_api.app.DbContextInit;
 namespace web_project_api.app.Controller;
 
 public class TradeController : ControllerBase
@@ -19,7 +18,8 @@ public class TradeController : ControllerBase
 
         [HttpPut("/trades")]
         public IActionResult UpdateTradeById([FromBody] TradeDTO trade) {
-            return tradeRepository.UpdateTrade(trade) != null ? Ok(tradeRepository.UpdateTrade(trade)) : NoContent();
+            tradeRepository.UpdateTrade(trade);
+            return Ok();
         }
         
         [HttpDelete("/trades/{tradeId}")]
@@ -29,7 +29,7 @@ public class TradeController : ControllerBase
                 return Ok();
            } catch (Exception e) {
                 Console.WriteLine($"Generic Exception Handler: {e}");
-                return NotFound();
+            return NotFound();
            }
         }
         

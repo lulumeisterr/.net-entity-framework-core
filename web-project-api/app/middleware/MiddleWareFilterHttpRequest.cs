@@ -15,7 +15,7 @@ namespace web_project_api.app.middleware;
     
     public async Task InvokeAsync(HttpContext context, ITradeRepository _tradeRepository) {
         int getTradesQtd = _tradeRepository != null ? _tradeRepository.GetAllTrades().Count() : throw new Exception("Erro");
-
+        Console.WriteLine("Quantidade de trades : " + getTradesQtd);
         if (getTradesQtd >= 10) {
             if (context.Request.Path.StartsWithSegments("/trades") && context.Request.Method == "POST") {
                 context.Response.StatusCode = 404;
