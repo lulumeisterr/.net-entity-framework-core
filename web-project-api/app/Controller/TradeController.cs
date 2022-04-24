@@ -2,6 +2,8 @@ using Microsoft.AspNetCore.Mvc;
 using web_project_api.app.DTO;
 using web_project_api.app.Model;
 using web_project_api.app.Repositorys;
+using web_project_api.app.Utils;
+
 namespace web_project_api.app.Controller;
 
 public class TradeController : ControllerBase
@@ -17,7 +19,7 @@ public class TradeController : ControllerBase
             var tradeValidateConstructor = new Trade(tradeRequest.tradeId,tradeRequest.tradeStatusCode,tradeRequest.buyiOrSell,tradeRequest.tradingDate);
 
             if(!tradeValidateConstructor.IsValid) {
-                return BadRequest(tradeValidateConstructor.Notifications);
+                return ValidationProblem(new ValidationProblemDetails(tradeValidateConstructor.Notifications.ConvertProblemDetails()));
             }
 
             TradeDTO trade = tradeRepository.Add(tradeRequest);
@@ -30,7 +32,7 @@ public class TradeController : ControllerBase
             return Ok();
         }
         
-        [HttpDelete("/trades/{tradeId}")]
+        [HttpDelete("/trades/{tradeId:int}")]
         public IActionResult DeleteTradeById([FromRoute] int tradeId) {
            try {
                 tradeRepository.DeleteTradeById(tradeId);

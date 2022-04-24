@@ -31,11 +31,11 @@ namespace web_project_api.app.Model
 
 
             if(this.tradeId.GetHashCode() == 0) {
-                AddNotification("tradeId", "O Campo tradeId não pode ser nulo");
+                contract.AddNotification("tradeId", "O Campo tradeId não pode ser nulo");
             }
 
             if(this.tradingDate.GetHashCode() == 0) {
-                AddNotification("tradingDate", "O Campo tradeId não pode ser nulo");
+                contract.AddNotification("tradingDate", "O Campo tradeId não pode ser nulo");
             }
 
             AddNotifications(contract);

@@ -3,6 +3,7 @@ using TradeRepository = web_project_api.app.Repositorys.TradeRepository;
 using ApplicationDbContext = web_project_api.app.DbContextInit.ApplicationDbContext;
 using web_project_api.app.middleware;
 using System.Text.Json.Serialization;
+using Microsoft.AspNetCore.Mvc;
 
 /**
   Builder responsavel por
