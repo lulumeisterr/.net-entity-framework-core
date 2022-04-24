@@ -1,5 +1,6 @@
 using Microsoft.AspNetCore.Mvc;
 using web_project_api.app.DTO;
+using web_project_api.app.Model;
 using web_project_api.app.Repositorys;
 namespace web_project_api.app.Controller;
 
@@ -11,9 +12,16 @@ public class TradeController : ControllerBase
         }
 
         [HttpPost("/trades")]
-        public IActionResult AddTrade([FromBody] TradeDTO trade) {
-            TradeDTO newTrade = tradeRepository.Add(trade);
-            return Created($"/trades/{newTrade.tradeId}",newTrade);
+        public IActionResult AddTrade([FromBody] TradeDTO tradeRequest) {
+
+            var tradeValidateConstructor = new Trade(tradeRequest.tradeId,tradeRequest.tradeStatusCode,tradeRequest.buyiOrSell,tradeRequest.tradingDate);
+
+            if(!tradeValidateConstructor.IsValid) {
+                return BadRequest(tradeValidateConstructor.Notifications);
+            }
+
+            TradeDTO trade = tradeRepository.Add(tradeRequest);
+            return Created($"/trades/{trade.tradeId}",trade);
         }
 
         [HttpPut("/trades")]

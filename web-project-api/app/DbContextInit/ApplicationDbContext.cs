@@ -1,3 +1,4 @@
+using Flunt.Notifications;
 using Microsoft.EntityFrameworkCore;
 using Allocation = web_project_api.app.Model.Allocation;
 using Trade = web_project_api.app.Model.Trade;
@@ -19,7 +20,7 @@ namespace web_project_api.app.DbContextInit;
         }
         
         protected override void OnModelCreating(ModelBuilder modelBuilder) {
-
+            modelBuilder.Ignore<Notification>();
             /** Relacionamento 1..*
                modelBuilder.Entity<Allocation>().HasOne<Trade>(allocation => allocation.Trade)
                                              .WithMany(trade => trade.Allocations)

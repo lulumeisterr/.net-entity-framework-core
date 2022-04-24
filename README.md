@@ -23,7 +23,7 @@
    - dotnet ef migrations add nomeDaTabela
    - dotnet ef migrations remove
    - dotnet ef database update (Atualiza o contexto do banco via migration)
-
-
-# FluentAPI
-  - 
+  
+# Flunt
+  - Utilizando Flunt para validações de classes dominio por meio de construtor
+   - dotnet add package Flunt --version 2.0.5
