@@ -46,7 +46,7 @@ public class TradeRepository : ITradeRepository
 
     public async Task<TradeDTO>? GetTradeById(int tradeIdRequest)
     {
-        return await _context.Trades
+        return await _context.Trades.AsNoTracking()
             .Include(t => t.allocations)
             .Where(t => t.tradeId == tradeIdRequest)
             .Select(t => new TradeDTO
@@ -66,7 +66,7 @@ public class TradeRepository : ITradeRepository
 
     public IEnumerable<TradeDTO> SearchTradeByDate(DateTime dateStart, DateTime endDate)
     {
-        return _context.Trades
+        return _context.Trades.AsNoTracking()
          .Include(t => t.allocations)
          .Where(t => t.tradingDate >= dateStart && t.tradingDate <= endDate)
          .Select(t => new TradeDTO
