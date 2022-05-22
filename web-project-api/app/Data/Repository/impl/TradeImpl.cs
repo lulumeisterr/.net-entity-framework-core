@@ -136,9 +136,7 @@ public class TradeRepository : ITradeRepository
         _context.SaveChanges();
     }
 
-    public IEnumerable<TradeDTO> GetAllTrades()
-    {
-        return _context.Trades.Include(t => t.allocations)
+    public IEnumerable<TradeDTO> GetAllTrades() => _context.Trades.Include(t => t.allocations)
             .Select(t => new TradeDTO
             {
                 Id = t.Id,
@@ -153,5 +151,4 @@ public class TradeRepository : ITradeRepository
                     unit = a.unit,
                 }).ToList()
             }).AsEnumerable<TradeDTO>();
-    }
 }
