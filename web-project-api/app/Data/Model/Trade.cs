@@ -26,8 +26,8 @@ namespace web_project_api.app.Model
             this.buyiOrSell = buyiOrSell;
 
             var contract = new Contract<Trade>()
-            .IsNotNullOrEmpty(this.tradeStatusCode , "O Campo tradeStatusCode não pode ser nulo")
-            .IsNotNullOrEmpty(this.buyiOrSell , "O Campo buyiOrSell não pode ser nulo");
+            .IsNotNullOrEmpty(this.tradeStatusCode , "tradeStatusCode" , "O Campo tradeStatusCode não pode ser nulo")
+            .IsNotNullOrEmpty(this.buyiOrSell , "buyiOrSell" , "O Campo tradeId não pode ser nulo");
 
 
             if(this.tradeId.GetHashCode() == 0) {

@@ -1,4 +1,5 @@
-namespace web_project_api.app.DTO;
+using web_project_api.app.DTO;
+namespace web_project_api.app.Model;
 
     public class TradeDTO {
         public int Id { get; set; }
@@ -7,5 +8,6 @@ namespace web_project_api.app.DTO;
         public string? tradeStatusCode { get; set; }
         public string buyiOrSell { get; set; }
         public ICollection<AllocationDTO> allocations { get; set; }
-    }
+
+}
 

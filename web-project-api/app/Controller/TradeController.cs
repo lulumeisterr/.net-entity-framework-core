@@ -1,5 +1,4 @@
 using Microsoft.AspNetCore.Mvc;
-using web_project_api.app.DTO;
 using web_project_api.app.Model;
 using web_project_api.app.Repositorys;
 using web_project_api.app.Utils;
@@ -14,7 +13,7 @@ public class TradeController : ControllerBase
         }
 
         [HttpPost("/trades")]
-        public IActionResult AddTrade([FromBody] TradeDTO tradeRequest) {
+        public async Task<IActionResult> AddTrade([FromBody] TradeDTO tradeRequest) {
 
             var tradeValidateConstructor = new Trade(tradeRequest.tradeId,tradeRequest.tradeStatusCode,tradeRequest.buyiOrSell,tradeRequest.tradingDate);
 
@@ -22,8 +21,8 @@ public class TradeController : ControllerBase
                 return ValidationProblem(new ValidationProblemDetails(tradeValidateConstructor.Notifications.ConvertProblemDetails()));
             }
 
-            TradeDTO trade = tradeRepository.Add(tradeRequest);
-            return Created($"/trades/{trade.tradeId}",trade);
+            TradeDTO trade = await tradeRepository.Add(tradeRequest);
+            return Created(uri: $"/trades/{trade.Id}",trade);
         }
 
         [HttpPut("/trades")]
@@ -44,8 +43,8 @@ public class TradeController : ControllerBase
         }
         
         [HttpGet("/trades/{tradeId}")]
-        public IActionResult GetTradeById([FromRoute] int tradeId) {
-             var result = tradeRepository.GetTradeById(tradeId);
+        public async Task<IActionResult> GetTradeById([FromRoute] int tradeId) {
+             var result = await tradeRepository.GetTradeById(tradeId);
             if (result != null ) {
                 return Ok(result);
             } else {

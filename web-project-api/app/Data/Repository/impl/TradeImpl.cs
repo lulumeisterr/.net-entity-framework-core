@@ -14,7 +14,7 @@ public class TradeRepository : ITradeRepository
         this._context = applicationDbContext;
     }
 
-    public TradeDTO Add(TradeDTO tradeRequest)
+    public async Task<TradeDTO> Add(TradeDTO tradeRequest)
     {
         var trade = new Trade
         {
@@ -38,15 +38,15 @@ public class TradeRepository : ITradeRepository
                 trade.allocations.Add(newAllocation);
             }
         }
-        _context.Trades.Add(trade);
-        _context.SaveChanges();
+        await _context.Trades.AddAsync(trade);
+        await _context.SaveChangesAsync();
 
         return tradeRequest;
     }
 
-    public TradeDTO? GetTradeById(int tradeIdRequest)
+    public async Task<TradeDTO>? GetTradeById(int tradeIdRequest)
     {
-        return _context.Trades
+        return await _context.Trades
             .Include(t => t.allocations)
             .Where(t => t.tradeId == tradeIdRequest)
             .Select(t => new TradeDTO
@@ -61,7 +61,7 @@ public class TradeRepository : ITradeRepository
                     allocationName = a.allocationName,
                     unit = a.unit,
                 }).ToList()
-            }).FirstOrDefault();
+            }).FirstOrDefaultAsync();
     }
 
     public IEnumerable<TradeDTO> SearchTradeByDate(DateTime dateStart, DateTime endDate)
@@ -83,10 +83,10 @@ public class TradeRepository : ITradeRepository
          }).AsEnumerable<TradeDTO>();
     }
 
-    public void UpdateTrade(TradeDTO tradeRequest)
+    public async void UpdateTrade(TradeDTO tradeRequest)
     {
 
-        var tradeSaved = GetTradeById(tradeRequest.tradeId);
+        var tradeSaved = await GetTradeById(tradeRequest.tradeId);
 
         try
         {
