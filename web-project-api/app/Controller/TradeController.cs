@@ -66,16 +66,32 @@ public class TradeController : ControllerBase
 
         
         [HttpGet("/trades")]
-        public IActionResult GetAllTrades() {
+        public IActionResult GetAllTrades(int? page, int? row) {
             var result = _tradeBusiness.GetAllTrades();
+
             if ( result == null || !result.Any() ) {
                 return NoContent();
-            } else {
-                return Ok( _tradeBusiness.GetAllTrades() ); 
-            }
-        }
+            } else
+        {
+            List<TradeDTO> newTradeResults = Pagination(ref page, ref row, result);
 
-        [HttpGet("/configuration/application")]
+            return Ok(newTradeResults);
+        }
+    }
+
+    private static List<TradeDTO> Pagination(ref int? page, ref int? row, IEnumerable<TradeDTO> result)
+    {
+        if (page == null)
+            page = 1;
+        if (row == null)
+            row = 1;
+
+        var filter = result.Skip((page.Value - 1) * row.Value).Take(row.Value);
+        var newTradeResults = filter.ToList();
+        return newTradeResults;
+    }
+
+    [HttpGet("/configuration/application")]
         public IActionResult configuration ([FromServices] IConfiguration configuration) {
             return Ok($"{configuration["project:applicationName"]}/{configuration["project:applicationVersion"]}");
         }
