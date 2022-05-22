@@ -3,6 +3,8 @@ using TradeRepository = web_project_api.app.Repositorys.TradeRepository;
 using ApplicationDbContext = web_project_api.app.DbContextInit.ApplicationDbContext;
 using web_project_api.app.middleware;
 using System.Text.Json.Serialization;
+using web_project_api.app.Business.Logic.Interface;
+using web_project_api.app.Business.Logic;
 
 /**
   Builder responsavel por
@@ -13,6 +15,7 @@ builder.Services.AddControllers().AddJsonOptions(x =>
                 x.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.IgnoreCycles);
 
 //Configuração de injeção de dependencias.
+builder.Services.AddScoped<ITradeBusiness,TradeBusiness>();
 builder.Services.AddScoped<ITradeRepository,TradeRepository>();
 builder.Services.AddDbContext<ApplicationDbContext>();
 
